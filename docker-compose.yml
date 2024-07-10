@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    image: your-backend-image
+    container_name: backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+    networks:
+      - webnet
+
+  frontend:
+    image: your-frontend-image
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - webnet
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"   # port dla AMQP
+      - "15672:15672" # port dla RabbitMQ Management
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge
