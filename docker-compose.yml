@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: your-backend-image
+    image: docker.io/library/webcompiler:0.0.1-SNAPSHOT
     container_name: backend
     ports:
       - "8080:8080"
@@ -15,7 +15,7 @@ services:
       - webnet
 
   frontend:
-    image: your-frontend-image
+    image: web-compiler-frontend
     container_name: frontend
     ports:
       - "3000:3000"
