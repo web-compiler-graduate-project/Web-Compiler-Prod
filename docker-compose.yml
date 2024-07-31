@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: docker.io/library/webcompiler:0.0.1-SNAPSHOT
+    image: web-compiler-backend
     container_name: backend
     ports:
       - "8080:8080"
@@ -12,7 +12,7 @@ services:
       - RABBITMQ_HOST=rabbitmq
       - RABBITMQ_PORT=5672
     networks:
-      - webnet
+      - web-net
 
   frontend:
     image: web-compiler-frontend
@@ -20,7 +20,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - webnet
+      - web-net
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -29,8 +29,8 @@ services:
       - "5672:5672"   # port dla AMQP
       - "15672:15672" # port dla RabbitMQ Management
     networks:
-      - webnet
+      - web-net
 
 networks:
-  webnet:
+  web-net:
     driver: bridge
