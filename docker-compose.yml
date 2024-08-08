@@ -3,9 +3,8 @@ version: '3.8'
 services:
   backend:
     image: web-compiler-backend
-    container_name: backend
-    ports:
-      - "8080:8080"
+    deploy:
+      replicas: ${BACKEND_REPLICAS}
     depends_on:
       - rabbitmq
     environment:
@@ -22,12 +21,28 @@ services:
     networks:
       - web-net
 
+  message-publisher:
+    image: web-compiler-message-publisher
+    container_name: message-publisher
+    ports:
+      - "3001:3001"
+    depends_on:
+      - rabbitmq
+    environment:
+      - RABBITMQ_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672
+    networks:
+      - web-net
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
       - "5672:5672"   # port dla AMQP
       - "15672:15672" # port dla RabbitMQ Management
+      - "15674:15674" # port dla Web STOMP
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_PASSWORD}
     networks:
       - web-net
 
