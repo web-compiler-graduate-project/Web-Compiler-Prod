@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: web-compiler-backend
+    image: michaelwieczorek/web-compiler:web-compiler-backend
     deploy:
       replicas: ${BACKEND_REPLICAS}
     depends_on:
@@ -17,7 +17,7 @@ services:
       - web-net
 
   frontend:
-    image: web-compiler-frontend
+    image: michaelwieczorek/web-compiler:web-compiler-frontend
     container_name: frontend
     expose:
       - "3000"
@@ -27,7 +27,7 @@ services:
       - web-net
 
   message-publisher:
-    image: web-compiler-message-publisher
+    image: michaelwieczorek/web-compiler:web-compiler-message-publisher
     container_name: message-publisher
     ports:
       - "3001:3001"
@@ -42,8 +42,8 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"   # port dla AMQP
-      - "15672:15672" # port dla RabbitMQ Management
+      - "5672:5672"   # Port dla AMQP
+      - "15672:15672" # Port dla RabbitMQ Management
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_PASSWORD}
@@ -51,14 +51,12 @@ services:
       - web-net
 
   nginx:
-    image: nginx:alpine
+    image: michaelwieczorek/web-compiler:web-compiler-nginx
     container_name: nginx
     ports:
       - "80:80"
     depends_on:
       - frontend
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     networks:
       - web-net
 
