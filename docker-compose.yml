@@ -19,8 +19,6 @@ services:
   frontend:
     image: web-compiler-frontend
     container_name: frontend
-    expose:
-      - "3000"
     depends_on:
       - message-publisher
     networks:
@@ -86,7 +84,7 @@ services:
     depends_on:
       - web-compiler-db
 
-  web-compiler-app-backend:
+  app-backend:
     image: web-compiler-app-backend
     container_name: web-compiler-app-backend
     depends_on:
