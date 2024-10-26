@@ -7,7 +7,7 @@ else
     exit 1
 fi
 
-LOCAL_IMAGES=("web-compiler-backend" "web-compiler-frontend" "web-compiler-message-publisher" "web-compiler-nginx")
+LOCAL_IMAGES=("web-compiler-backend" "web-compiler-frontend" "web-compiler-message-publisher" "web-compiler-nginx" "web-compiler-app-backend")
 TAG="latest"
 
 echo "Logging in to Docker Hub..."
