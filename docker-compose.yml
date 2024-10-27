@@ -69,6 +69,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
+    networks:
+      - web-net
 
   pgadmin:
     container_name: pgadmin4_container
@@ -88,16 +90,32 @@ services:
     image: web-compiler-app-backend
     container_name: web-compiler-app-backend
     depends_on:
-      - rabbitmq
       - web-compiler-db
+      - vault
     environment:
       - DB_NAME=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=web-compiler-db
       - DB_PORT=5432
+      - APP_ADMIN_LOGIN=${APP_ADMIN_LOGIN}
+      - APP_ADMIN_PASSWORD=${APP_ADMIN_PASSWORD}
+      - VAULT_TOKEN_ID:${VAULT_TOKEN_ID}
     ports:
       - "8084:8084"
+    networks:
+      - web-net
+
+  vault:
+    image: vault:1.13.3
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_TOKEN_ID} # Tylko do celów testowych, produkcyjnie użyj lepszej konfiguracji
+    ports:
+      - "8200:8200" # Port dostępu do Vault
+    cap_add:
+      - IPC_LOCK # Vault wymaga tej flagi, aby działać bezpiecznie
+    command: server -dev -dev-root-token-id="root_token" # Tryb developerski Vault
     networks:
       - web-net
 
