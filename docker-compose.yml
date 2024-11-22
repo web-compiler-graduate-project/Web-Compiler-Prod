@@ -113,12 +113,12 @@ services:
   vault:
     image: vault:1.13.3
     environment:
-      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN_ID} # Tylko do celów testowych, produkcyjnie użyj lepszej konfiguracji
+      - VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN_ID}
     ports:
-      - "8200:8200" # Port dostępu do Vault
+      - "8200:8200"
     cap_add:
-      - IPC_LOCK # Vault wymaga tej flagi, aby działać bezpiecznie
-    command: server -dev -dev-root-token-id="root_token" # Tryb developerski Vault
+      - IPC_LOCK
+    command: server -dev -dev-root-token-id="root_token"
     networks:
       - web-net
 
