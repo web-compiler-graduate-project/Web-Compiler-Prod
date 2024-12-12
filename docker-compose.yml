@@ -40,8 +40,8 @@ services:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"   # port dla AMQP
-      - "15672:15672" # port dla RabbitMQ Management
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_PASSWORD}
@@ -105,6 +105,8 @@ services:
       - APP_ADMIN_EMAIL=${APP_ADMIN_EMAIL}
       - APP_ADMIN_PASSWORD=${APP_ADMIN_PASSWORD}
       - VAULT_TOKEN_ID=${VAULT_TOKEN_ID}
+      - VAULT_URL=${VAULT_URL}
+      - APP_HOST=${APP_HOST}
     ports:
       - "8084:8084"
     networks:
