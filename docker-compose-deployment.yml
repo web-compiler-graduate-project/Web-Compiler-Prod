@@ -17,7 +17,7 @@ services:
       - web-net
 
   frontend:
-    image: michaelwieczorek/web-compiler:web-compiler-frontend
+    image: michaelwieczorek/web-compiler:web-compiler-frontend-prod
     container_name: frontend
     expose:
       - "3000"
@@ -39,7 +39,7 @@ services:
       - web-net
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4.0-management
     container_name: rabbitmq
     ports:
       - "5672:5672"
@@ -64,18 +64,18 @@ services:
     image: michaelwieczorek/web-compiler:web-compiler-app-backend
     container_name: web-compiler-app-backend
     depends_on:
-      - web-compiler-db
       - vault
     environment:
       - DB_NAME=${DB_NAME}
       - DB_PORT=${DB_PORT}
+      - DB_HOST=${DB_HOST}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
+      - DB_PORT=5432
       - APP_ADMIN_LOGIN=${APP_ADMIN_LOGIN}
       - APP_ADMIN_EMAIL=${APP_ADMIN_EMAIL}
       - APP_ADMIN_PASSWORD=${APP_ADMIN_PASSWORD}
-      - VAULT_TOKEN_ID:${VAULT_TOKEN_ID}
+      - VAULT_TOKEN_ID=${VAULT_TOKEN_ID}
       - VAULT_URL=${VAULT_URL}
       - APP_HOST=${APP_HOST}
     ports:
